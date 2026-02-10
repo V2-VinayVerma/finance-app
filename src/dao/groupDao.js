@@ -36,6 +36,18 @@ const groupDao = {
         return await Group.find({ "paymentStatus.isPaid": status });
     },
 
+    getGroupDetailsForMember: async (groupId, email) => {
+        return await Group.findOne({ _id: groupId, membersEmail: email });
+    },
+
+    addExpenseToGroup: async (groupId, email, expenseData) => {
+        return await Group.findOneAndUpdate(
+            { _id: groupId, membersEmail: email },
+            { $push: { expenses: expenseData } },
+            { new: true }
+        );
+    },
+
     /**
      * We'll only return when was the last time group
      * was settled to begin with.

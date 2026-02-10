@@ -6,6 +6,14 @@ const { validationResult } = require('express-validator');
 const { ADMIN_ROLE, VIEWER_ROLE, MANAGER_ROLE } = require('../utility/userRoles');
 const permissions = require('../utility/permissions');
 
+const isProduction = process.env.NODE_ENV === 'production';
+const cookieOptions = {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
+    path: '/'
+};
+
 const authController = {
     login: async (request, response) => {
         const errors = validationResult(request);
@@ -34,12 +42,7 @@ const authController = {
                 { expiresIn: '1h' }
             );
 
-            response.cookie('jwtToken', token, {
-                httpOnly: true,
-                secure: true,
-                domain: 'localhost',
-                path: '/'
-            });
+            response.cookie('jwtToken', token, cookieOptions);
             return response.status(200).json({
                 message: 'User authenticated',
                 user: user
@@ -121,7 +124,7 @@ const authController = {
 
     logout: async (request, response) => {
         try {
-            response.clearCookie('jwtToken');
+            response.clearCookie('jwtToken', cookieOptions);
             response.json({ message: 'Logout successfull' });
         } catch (error) {
             console.log(error);
@@ -168,12 +171,7 @@ const authController = {
                 { expiresIn: '1h' }
             );
 
-            response.cookie('jwtToken', token, {
-                httpOnly: true,
-                secure: true,
-                domain: 'localhost',
-                path: '/'
-            });
+            response.cookie('jwtToken', token, cookieOptions);
             return response.status(200).json({
                 message: 'User authenticated',
                 user: user

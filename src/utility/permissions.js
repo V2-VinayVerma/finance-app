@@ -10,6 +10,7 @@ const permissions = {
         'group:update',
         'group:delete',
         'group:view',
+        'payment: create'
     ],
 
     [VIEWER_ROLE]: [

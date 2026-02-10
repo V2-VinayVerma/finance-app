@@ -13,6 +13,8 @@ router.patch('/members/add', authorizeMiddleware('group:update'), groupControlle
 router.patch('/members/remove', authorizeMiddleware('group:update'), groupController.removeMembers);
 router.get('/my-groups', authorizeMiddleware('group:view'), groupController.getGroupsByUser);
 router.get('/status', authorizeMiddleware('group:view'), groupController.getGroupsByPaymentStatus);
+router.get('/:groupId/details', authorizeMiddleware('group:view'), groupController.getGroupDetails);
+router.post('/:groupId/expenses', authorizeMiddleware('group:update'), groupController.addExpense);
 router.get('/:groupId/audit', authorizeMiddleware('group:view'), groupController.getAudit);
 
 module.exports = router;

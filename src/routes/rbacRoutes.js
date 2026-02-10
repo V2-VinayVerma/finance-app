@@ -7,9 +7,9 @@ const router = express.Router();
 
 router.use(authMiddleware.protect);
 
+router.get('/', authorizeMiddleware('user:view'), rbacController.getAllUsers);
 router.post('/', authorizeMiddleware('user:create'), rbacController.create);
-router.post('/', authorizeMiddleware('user:update'), rbacController.update);
-router.post('/delete', authorizeMiddleware('user:delete'), rbacController.delete);
-router.post('/', authorizeMiddleware('user:read'), rbacController.getAllUsers);
+router.put('/:userId', authorizeMiddleware('user:update'), rbacController.update);
+router.delete('/:userId', authorizeMiddleware('user:delete'), rbacController.delete);
 
 module.exports = router;
