@@ -3,7 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const { validationResult } = require('express-validator');
-const { ADMIN_ROLE } = require('../utility/userRoles');
+const { ADMIN_ROLE, VIEWER_ROLE, MANAGER_ROLE } = require('../utility/userRoles');
+const permissions = require('../utility/permissions');
 
 const authController = {
     login: async (request, response) => {

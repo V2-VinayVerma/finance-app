@@ -1,4 +1,4 @@
-const Group = require("../model/group");
+const Group = require("../model/groups");
 
 const groupDao = {
     createGroup: async (data) => {

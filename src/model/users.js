@@ -6,7 +6,9 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: false },
     googleId: { type: String, required: false },
     role: { type: String, required: true },
-    adminId: { type: mongoose.Schema.Types.ObjectId, ref: "User", index: true }
+    adminId: { type: mongoose.Schema.Types.ObjectId, ref: "User", index: true },
+    //default to 1 ..so user can experience by vreating a group!
+    credits: { type: Number, default: 1 }
 });
 
 module.exports = mongoose.model('User', userSchema);

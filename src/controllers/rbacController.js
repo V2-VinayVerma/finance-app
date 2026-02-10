@@ -11,9 +11,9 @@ const rbacController = {
             const { name, email, role } = request.body;
 
 
-            if (!USER_ROLES.include(role)) {
+            if (!Object.values(USER_ROLES).includes(role)) {
                 return response.status(400).json({
-                    message: 'Invalid ROle'
+                    message: 'Invalid Role'
                 });
             }
             

@@ -1,17 +1,27 @@
-const permission = require('../utility/permissions');
+const { ADMIN_ROLE, VIEWER_ROLE, MANAGER_ROLE } = require("./userRoles");
 
-const authorize = (requiredPermission) => {
-    return (request, response, next) => {
-        const user = request.user;
-        if (!user) {
-            return response.status(401).json({ message: 'Unauthorized access' });
-        }
-        const userPermissions = permission[user.role] || [];
-        if (!userPermissions.includes(requiredPermission)) {
-            return response.status(403).json({
-                message: 'Forbidden: Insufficient Permissions'
-            });
-        } next();
-    }
-};
-module.exports = authorize;
+const permissions = {
+    [ADMIN_ROLE]: [
+        'user:create',
+        'user:update',
+        'user:delete',
+        'user:view',
+        'group:create',
+        'group:update',
+        'group:delete',
+        'group:view',
+    ],
+
+    [VIEWER_ROLE]: [
+        'user:view',
+        'group:view'
+    ],
+    [MANAGER_ROLE]: [
+        'user:view',
+        'group:create',
+        'group:update',
+        'group:view',
+    ],
+}
+
+module.exports = permissions;
