@@ -23,15 +23,15 @@ const paymentsController = {
 
             const amountInPaise = CREDIT_TO_PAISA_MAPPING[credits];
 
-            await razorpayClient.orders.createOrder({
+            const order = await razorpayClient.orders.create({
                 amount: amountInPaise,
                 currency: 'INR',
                 receipt: `reciept_${Date.now()}`
-            })
+            });
 
-            response.status.json({ order: order })
+            return response.status(200).json({ order: order });
         } catch (error) {
-            return response.status(500).json({ message: "Internal Server error" })
+            return response.status(500).json({ message: "Internal Server error" });
         }
     },
 
@@ -53,16 +53,20 @@ const paymentsController = {
                 .digest('hex');
 
             if (expectedSignature !== razorpay_signature) {
-                return response.status(400).json({ message: "Invalid Transaction!!" })
+                return response.status(400).json({ message: "Invalid Transaction!!" });
             }
 
-            const user = await Users.findById({ _id: request.user, _id });
+            const user = await Users.findById(request.user._id);
+            if (!user) {
+                return response.status(404).json({ message: "User not found" });
+            }
+
             user.credits += Number(credits);
             await user.save();
 
             return response.json({ user: user });
         } catch (error) {
-            return response.status(500).json({ message: "Internal Server Error" })
+            return response.status(500).json({ message: "Internal Server Error" });
         }
     },
 };

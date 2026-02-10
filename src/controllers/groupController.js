@@ -63,7 +63,7 @@ const groupController = {
             const user = request.user;
             const { name, description, membersEmail, thumbnail } = request.body;
 
-            const UserInfo = await userDao.findByEmail(user.email);
+            const userInfo = await userDao.findByEmail(user.email);
 
             //This is to ensure backward compatibility for already created users
             // not having credits attribute.
@@ -80,6 +80,10 @@ const groupController = {
 
                 });
             }
+
+
+            userInfo.credits  -= 1;
+            userInfo.save();
 
             let allMembers = [user.email];
             if (membersEmail && Array.isArray(membersEmail)) {

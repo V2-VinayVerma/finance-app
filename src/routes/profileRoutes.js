@@ -5,6 +5,6 @@ const usersController = require('../controllers/profileController');
 
 router.use(authMiddleware.protect);
 
-router.get('/get0user-info', usersController.getUserInfo);
+router.get('/get-user-info', usersController.getUserInfo);
 
 module.exports = router;
